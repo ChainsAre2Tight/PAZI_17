@@ -9,8 +9,8 @@ def pack(s_max: int, sequence: list) -> tuple[bool, str, int]:
             is_included.append('1')
         else:
             is_included.append('0')
-    is_included = ''.join(reversed(is_included))
-    success = s_cur == 0
+    is_included = ''.join(reversed(is_included))  # binary string
+    success = s_cur == 0  # можно ли упаковать рюкзак
     return success, \
         is_included if success else None, \
         sum(backpack) if success else None
@@ -24,25 +24,25 @@ def create_public_key(private_key: list, a: int, n: int):
 
 
 def encrypt(message: list, public_key: list):
-    encoded_message = list()
+    encrypted_message = list()
 
     for item in message:
         backpack = 0
         for index in range(len(item)):
             backpack += public_key[index] * int(item[index])
-        encoded_message.append(backpack)
-    return encoded_message
+        encrypted_message.append(backpack)
+    return encrypted_message
 
 
 def decrypt(message: list, n: int, anti_a: int, private_key: list):
-    decoded_message = list()
+    decrypted_message = list()
 
     for item in message:
         backpack = (item * anti_a) % n
         result_item = pack(s_max=backpack, sequence=private_key)[1]
-        decoded_message.append(result_item)
+        decrypted_message.append(result_item)
 
-    return decoded_message
+    return decrypted_message
 
 
 if __name__ == '__main__':
